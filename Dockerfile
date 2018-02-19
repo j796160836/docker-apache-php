@@ -4,7 +4,9 @@ ENV PHP_VERSION="7.1.14-r0" \
     APACHE_VERSION="2.4.29-r1" \
     OPENSSL_VERSION="1.0.2n-r0" \
     COMPOSER_VERSION="1.6.3" \
-    COMPOSER_CHECKSUM="ec6ed7f897709a79f39c73d6a373d82516fbd32930070ab073f831c81c813a0cc155a08a0b56257938563f453e567ba4738051ae9956f856e43528b5262c2b3c  composer.phar"
+    COMPOSER_CHECKSUM="ec6ed7f897709a79f39c73d6a373d82516fbd32930070ab073f831c81c813a0cc155a08a0b56257938563f453e567ba4738051ae9956f856e43528b5262c2b3c  composer.phar" \
+    PHPUNIT_VERSION="7.0.1" \
+    PHPUNIT_CHECKSUM="39c8228861a52125b9d60a7065413787184b143ee115f1efbb00cb69820860578ff92803424e371403b9a01cef4df04b2bcc8cc159d608403459548605e599ba  phpunit-7.0.1.phar"
 
 # Install modules and updates
 RUN apk update \
@@ -75,6 +77,13 @@ RUN wget https://getcomposer.org/download/${COMPOSER_VERSION}/composer.phar \
     && rm composerchecksum.txt \
     && mv composer.phar /usr/bin/composer \
     && chmod +x /usr/bin/composer
+    # Install phpunit
+RUN wget https://phar.phpunit.de/phpunit-${PHPUNIT_VERSION}.phar \
+    && echo "${PHPUNIT_CHECKSUM}" > phpunitchecksum.txt \
+    && sha512sum -c phpunitchecksum.txt \
+    && rm phpunitchecksum.txt \
+    && mv phpunit-${PHPUNIT_VERSION}.phar /usr/bin/phpunit \
+    && chmod +x /usr/bin/phpunit
 
 WORKDIR /var/www
 
