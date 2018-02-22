@@ -40,6 +40,7 @@ RUN apk --no-cache add \
         php7-session \
         php7-sockets \
         php7-xml \
+        php7-zip \
         php7-xmlreader \
     && rm /var/cache/apk/*
 
